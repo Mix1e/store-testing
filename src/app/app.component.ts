@@ -1,14 +1,19 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import {Component} from '@angular/core';
+import {CommonModule} from "@angular/common";
+import {RouterOutlet} from "@angular/router";
+import {TestComponent} from "./components/test/test.component";
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [CommonModule, RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+    imports: [
+        CommonModule,
+        RouterOutlet,
+        TestComponent,
+    ],
+    selector: 'app-root',
+    standalone: true,
+    styleUrl: './app.component.scss',
+    templateUrl: './app.component.html',
 })
 export class AppComponent {
-  title = 'store-testing';
+    title = 'store-testing';
 }

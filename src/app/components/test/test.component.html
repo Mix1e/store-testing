@@ -1,0 +1,9 @@
+<p>component-test works!</p>
+<span>
+    <ng-container *ngIf="isLoading$ | async; else asd">
+            Loading...
+    </ng-container>
+    <ng-template #asd>
+        Loaded
+    </ng-template>
+</span>
