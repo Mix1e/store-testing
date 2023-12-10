@@ -1,8 +1,10 @@
-import {IAppState} from "./models/app-state.interface";
-import {createSelector} from "@ngrx/store";
-import {MemoizedSelector} from "@ngrx/store/src/selector";
-import {IItems} from "./models/items.interface";
+import { createSelector } from '@ngrx/store';
+import { EState, IMessageModel } from './models/messages-model.interface';
+import { EStoreKeys } from './models/store-key.const';
+import { IAppState } from './models/app-state.interface';
 
-export const selectFeature = (state: IItems): IItems => state;
+export const selectFeature = (state: IAppState): IMessageModel => state[EStoreKeys.MESSAGES];
 
-export const isLoadingSelector: MemoizedSelector<IItems, boolean> = createSelector(selectFeature, (state: IItems) => state.isLoading);
+export const stateSelector = createSelector(selectFeature, (state) => state.state);
+export const messagesSelector = createSelector(selectFeature, (state) => state.messages);
+export const errorSelector = createSelector(selectFeature, (state) => state.error);

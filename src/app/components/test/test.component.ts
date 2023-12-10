@@ -1,9 +1,11 @@
-import {Component} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {select, Store} from "@ngrx/store";
-import {getItems} from "../../store/app.actions";
-import {Observable, of, tap} from "rxjs";
-import {isLoadingSelector} from "../../store/app.selectors";
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { select, Store } from '@ngrx/store';
+import { getMessages } from '../../store/app.actions';
+import { map, Observable, of } from 'rxjs';
+import { EState, IMessageItem } from '../../store/models/messages-model.interface';
+import { errorSelector, messagesSelector, stateSelector } from '../../store/app.selectors';
+import { IAppState } from '../../store/models/app-state.interface';
 
 @Component({
     selector: 'app-test',
@@ -12,14 +14,20 @@ import {isLoadingSelector} from "../../store/app.selectors";
     templateUrl: './test.component.html',
 })
 export class TestComponent {
-    public isLoading$: Observable<boolean> = of(false);
+    public State: typeof EState = EState;
 
-    constructor(private store: Store) {
-        this.isLoading$ = this.store.pipe(select(isLoadingSelector), tap(console.log));
+    public dataState$: Observable<EState>;
+    public messages$: Observable<IMessageItem[] | undefined>;
+    public error$: Observable<string | undefined>;
+
+    constructor(private store: Store<IAppState>) {
+        this.dataState$ = this.store.pipe(select(stateSelector));
+        this.messages$ = this.store.pipe(select(messagesSelector));
+
+        this.error$ = this.store.pipe(select(errorSelector));
     }
 
-
     sendData(): void {
-        this.store.dispatch(getItems());
+        this.store.dispatch(getMessages());
     }
 }

@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "test:store": " ng test --include=**/store/*.spec.ts"
   },
   "private": true,
   "dependencies": {
@@ -28,6 +29,7 @@
     "@angular-devkit/build-angular": "^17.0.2",
     "@angular/cli": "^17.0.2",
     "@angular/compiler-cli": "^17.0.0",
+    "@ngrx/store-devtools": "^17.0.0",
     "@types/jasmine": "~5.1.0",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
@@ -35,7 +37,8 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.2.2",
-    "@ngrx/store-devtools": "^17.0.0"
+    "prettier": "3.1.1",
+    "protractor-console": "^3.0.0",
+    "typescript": "~5.2.2"
   }
 }

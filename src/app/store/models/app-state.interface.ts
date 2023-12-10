@@ -1,5 +1,6 @@
-import {IItems} from "./items.interface";
+import {IMessageModel} from "./messages-model.interface";
+import {EStoreKeys} from "./store-key.const";
 
 export interface IAppState {
-    state: IItems;
+    [EStoreKeys.MESSAGES]: IMessageModel;
 }

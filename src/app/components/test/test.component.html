@@ -1,9 +1,21 @@
-<p>component-test works!</p>
-<span>
-    <ng-container *ngIf="isLoading$ | async; else asd">
-            Loading...
+<span *ngIf="dataState$ | async as dataState">
+    <ng-container [ngSwitch]="dataState">
+        <ng-container *ngSwitchCase="State.READY">
+            <span>READY</span>
+            <p>
+                {{ messages$ | async | json}}
+            </p>
+        </ng-container>
+        <ng-container *ngSwitchCase="State.PENDING">
+            <span>PENDING</span>
+        </ng-container>
+        <ng-container *ngSwitchCase="State.ERROR">
+            <span> {{error$ | async }} </span>
+        </ng-container>
     </ng-container>
-    <ng-template #asd>
-        Loaded
-    </ng-template>
 </span>
+<p>
+    <button (click)="sendData()">
+        sendData
+    </button>
+</p>
