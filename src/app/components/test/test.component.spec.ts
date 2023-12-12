@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TestComponent } from './test.component';
 import { provideStore } from '@ngrx/store';
-import { reducers } from '../../store/app.reducers';
+import { reducers } from '../../store/reducers/app.reducers';
 
 describe('ComponentTestComponent', () => {
     let component: TestComponent;

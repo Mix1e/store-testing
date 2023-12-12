@@ -1,8 +1,8 @@
-
 export enum EState {
-    PENDING='PENDING',
-    READY='READY',
-    ERROR='ERROR'
+    PENDING = 'PENDING',
+    READY = 'READY',
+    ERROR = 'ERROR',
+    EMPTY = 'EMPTY',
 }
 
 export interface IMessageModel {
@@ -12,6 +12,6 @@ export interface IMessageModel {
 }
 
 export interface IMessageItem {
-    id: number,
-    content: string,
+    id: number;
+    content: string;
 }
