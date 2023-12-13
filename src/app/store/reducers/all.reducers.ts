@@ -23,7 +23,7 @@ const reducers: ActionReducer<
             ...state,
             error: undefined,
             state: EState.READY,
-            messages: action.messages,
+            messages: [...action.messages],
         }),
     ),
     on(

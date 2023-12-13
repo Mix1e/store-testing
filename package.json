@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "test:store": " ng test --include=**/store/*.spec.ts"
+    "test:store": " ng test --include=**/store/**/*.spec.ts"
   },
   "private": true,
   "dependencies": {

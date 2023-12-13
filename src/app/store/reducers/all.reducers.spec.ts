@@ -1,8 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { initialState } from '../models/initial-state.const';
 import { allReducer } from './all.reducers';
+import { IMessageItem, IMessageModel } from '../models/messages-model.interface';
+import { getAllMessagesSuccess } from '../actions/all.actions';
 
-describe('AppReducers', () => {
+describe('AllReducers', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [],
@@ -16,22 +18,25 @@ describe('AppReducers', () => {
                 type: '123',
             };
 
-            const state = allReducer(initialState, action);
+            const state: IMessageModel = allReducer(initialState, action);
 
             expect(state).toBe(initialState);
         });
     });
 
-    describe('getMessagesSuccess action', () => {
+    describe('getAllMessagesSuccess action', () => {
         it('should update the state in an immutable way', () => {
-            /*const newState: IMessageModel[] = [
+            const newStateMessages: IMessageItem[] = [{ id: 1, content: 'some content' }];
 
-            ];
+            const action = getAllMessagesSuccess({ messages: newStateMessages });
+            const state = allReducer(initialState, action);
 
-            const action = getMessagesSuccess({ messages: newState });
-            const state = reducers(initialState, action);
-
-            expect(state).toEqual(newState);*/
+            expect(state.messages).withContext('toEqual').toEqual(newStateMessages);
+            expect(state.messages).withContext('not.toBe').not.toBe(newStateMessages);
         });
+    });
+
+    describe('', () => {
+        it('', () => {});
     });
 });

@@ -1,5 +1,10 @@
 <p>
-    {{message | json}}
-    <button (click)="like.emit(message)">like</button>
-    <button (click)="delete.emit(message)">delete</button>
+    {{ message | json }}
+    <ng-container *ngIf="type === 'all'">
+        <button (click)="addToFavourite.emit(message)">addToFavourite</button>
+        <button (click)="addToDeleted.emit(message)">addToDeleted</button>
+    </ng-container>
+
+    <button *ngIf="type === 'favourite'" (click)="unFavourite.emit(message)">unFavourite</button>
+    <button *ngIf="type === 'deleted'" (click)="unDelete.emit(message)">unDelete</button>
 </p>

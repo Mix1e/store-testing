@@ -1,65 +1,51 @@
 <div class="container">
     <div *ngIf="allMessages$ | async as allMessages">
         <p>All Messages</p>
-        <button (click)="getAllMessages()">
-            get
-        </button>
+        <button (click)="getAllMessages()">get</button>
         <ng-container
-            *ngTemplateOutlet="
-										list;
-										context: {model: allMessages}
-									"
+            *ngTemplateOutlet="list; context: { model: allMessages, type: 'all' }"
         ></ng-container>
     </div>
 
     <div *ngIf="favouriteMessages$ | async as favouriteMessages">
         <p>Favourite Messages</p>
-        <button (click)="getFavouriteMessages()">
-            get
-        </button>
+        <button (click)="getFavouriteMessages()">get</button>
         <ng-container
-            *ngTemplateOutlet="
-										list;
-										context: {model: favouriteMessages}
-									"
+            *ngTemplateOutlet="list; context: { model: favouriteMessages, type: 'favourite' }"
         ></ng-container>
     </div>
 
     <div *ngIf="deletedMessages$ | async as deletedMessages">
         <p>Deleted Messages</p>
-        <button (click)="getDeletedMessages()">
-            get
-        </button>
+        <button (click)="getDeletedMessages()">get</button>
         <ng-container
-            *ngTemplateOutlet="
-										list;
-										context: {model: deletedMessages}
-									"
+            *ngTemplateOutlet="list; context: { model: deletedMessages, type: 'deleted' }"
         ></ng-container>
     </div>
-
 </div>
 
-<ng-template #list let-model="model">
+<ng-template #list let-model="model" let-type="type">
     <div class="container__item">
         <ng-container [ngSwitch]="model.state">
             <ng-container *ngSwitchCase="State.READY">
-                <app-message *ngFor="let message of model.messages"
+                <app-message
+                    *ngFor="let message of model.messages"
                     [message]="message"
-                 (like)="onLike($event)"
-                 (delete)="onDelete($event)"
-                >
-
-                </app-message>
+                    [type]="type"
+                    (addToFavourite)="addToFavourite($event)"
+                    (unFavourite)="unFavourite($event)"
+                    (addToDeleted)="addToDeleted($event)"
+                    (unDelete)="unDelete($event)"
+                ></app-message>
             </ng-container>
             <ng-container *ngSwitchCase="State.PENDING">
                 <span>PENDING...</span>
             </ng-container>
             <ng-container *ngSwitchCase="State.EMPTY">
-                <span> EMPTY </span>
+                <span>EMPTY</span>
             </ng-container>
             <ng-container *ngSwitchCase="State.ERROR">
-                <span> {{ model.error }} </span>
+                <span>{{ model.error }}</span>
             </ng-container>
         </ng-container>
     </div>

@@ -1,15 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap, Observable, of } from 'rxjs';
+import { catchError, map, mergeMap, Observable, of, throwError } from 'rxjs';
 import { Action } from '@ngrx/store';
 import { MessageService } from '../../services/message.service';
 import { IMessageItem } from '../models/messages-model.interface';
 import {
-    getAllMessages,
-    getAllMessagesFailure,
-    getAllMessagesSuccess,
-} from '../actions/all.actions';
-import {
+    deleteMessage,
+    deleteMessageFailure,
     deleteMessageSuccess,
     getDeletedMessages,
     getDeletedMessagesFailure,
@@ -28,10 +25,28 @@ export class DeletedEffects {
 
     public deleteMessage$: Observable<Action> = createEffect(() =>
         this.actions$.pipe(
-            ofType(deleteMessageSuccess),
-            mergeMap(() => of(getDeletedMessages())),
+            ofType(deleteMessage),
+            mergeMap(({ message }) =>
+                this.messageService.deleteMessage(message.id).pipe(
+                    map((isDeleted: boolean) => {
+                        if (isDeleted) return deleteMessageSuccess({ message });
+                        throw new Error('Message not deleted');
+                    }),
+                ),
+            ),
+            catchError((error: string) => of(deleteMessageFailure({ error }))),
         ),
     );
+
+    // public deleteMessageSuccess$: Observable<Action> = createEffect(() =>
+    //     this.actions$.pipe(
+    //         ofType(deleteMessageSuccess),
+    //         mergeMap(({ message }) =>
+    //
+    //             getDeletedMessagesSuccess(message)
+    //         ),
+    //     ),
+    // );
 
     constructor(
         private actions$: Actions,

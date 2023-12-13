@@ -4,6 +4,7 @@ import { initialState } from '../models/initial-state.const';
 
 import {
     deleteMessage,
+    deleteMessageFailure,
     deleteMessageSuccess,
     EDeletedMessagesAction,
     getDeletedMessages,
@@ -26,7 +27,7 @@ const reducers: ActionReducer<
             ...state,
             error: undefined,
             state: EState.READY,
-            messages: action.messages,
+            messages: [...action.messages],
         }),
     ),
     on(
@@ -38,13 +39,31 @@ const reducers: ActionReducer<
             error: action.error,
         }),
     ),
+    on(deleteMessage, (state: IMessageModel, action): IMessageModel => {
+        return {
+            ...state,
+            error: undefined,
+            messages: state.messages ? [...state.messages] : [],
+            state: EState.PENDING,
+        };
+    }),
     on(deleteMessageSuccess, (state: IMessageModel, action): IMessageModel => {
-        const messages: IMessageItem[] = state.messages?.concat(action.message) ?? [];
+        let messages: IMessageItem[] = state.messages ?? [];
+        if (!state.messages?.some((item: IMessageItem) => item.id === action.message.id)) {
+            messages = state.messages?.concat(action.message) ?? [action.message];
+        }
         return {
             ...state,
             error: undefined,
             state: EState.READY,
-            messages: messages,
+            messages,
+        };
+    }),
+    on(deleteMessageFailure, (state: IMessageModel, action): IMessageModel => {
+        return {
+            ...state,
+            error: action.error,
+            state: EState.ERROR,
         };
     }),
 );

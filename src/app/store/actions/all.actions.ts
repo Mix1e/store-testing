@@ -1,6 +1,8 @@
 import { createAction, props } from '@ngrx/store';
 import { IMessageItem } from '../models/messages-model.interface';
 
+export const appLoaded = createAction('[App] App Loaded');
+
 export enum EAllMessagesAction {
     GET_ALL_MESSAGES = '[Messages] Get all Messages',
     GET_ALL_MESSAGES_SUCCESS = '[Messages] Get all Messages success',

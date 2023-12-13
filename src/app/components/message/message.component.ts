@@ -11,6 +11,9 @@ import { IMessageItem } from '../../store/models/messages-model.interface';
 })
 export class MessageComponent {
     @Input() message!: IMessageItem;
-    @Output() like: EventEmitter<IMessageItem> = new EventEmitter<IMessageItem>();
-    @Output() delete: EventEmitter<IMessageItem> = new EventEmitter<IMessageItem>();
+    @Input() type!: 'favourite' | 'deleted' | 'all';
+    @Output() addToFavourite: EventEmitter<IMessageItem> = new EventEmitter<IMessageItem>();
+    @Output() unFavourite: EventEmitter<IMessageItem> = new EventEmitter<IMessageItem>();
+    @Output() addToDeleted: EventEmitter<IMessageItem> = new EventEmitter<IMessageItem>();
+    @Output() unDelete: EventEmitter<IMessageItem> = new EventEmitter<IMessageItem>();
 }

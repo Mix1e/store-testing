@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
-import { IMessageModel } from './models/messages-model.interface';
-import { EStoreKeys } from './models/store-key.const';
+import { EStoreKeys } from '../models/store-key.const';
+import { IMessageModel } from '../models/messages-model.interface';
 
 export interface IAppState {
     [EStoreKeys.MESSAGES]: IMessagesState;

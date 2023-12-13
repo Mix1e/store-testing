@@ -8,13 +8,17 @@ import {
     favouriteMessages,
     allMessages,
     IAppState,
-} from '../../store/app.selectors';
+} from '../../store/selectors/app.selectors';
 import { getAllMessages } from '../../store/actions/all.actions';
-import { getFavouriteMessages } from '../../store/actions/favourite.actions';
+import {
+    addFavouriteMessage,
+    getFavouriteMessages,
+    removeFavouriteMessage,
+} from '../../store/actions/favourite.actions';
 import {
     deleteMessage,
-    deleteMessageSuccess,
     getDeletedMessages,
+    unDeleteMessage,
 } from '../../store/actions/deleted.actions';
 import { MessageComponent } from '../message/message.component';
 
@@ -38,13 +42,22 @@ export class TestComponent {
         this.deletedMessages$ = this.store.pipe(select(deletedMessages));
     }
 
-    onLike(message: IMessageItem): void {
-        // this.store.dispatch(likeMessage(message));
+    addToFavourite(message: IMessageItem): void {
+        this.store.dispatch(addFavouriteMessage({ message }));
     }
 
-    onDelete(message: IMessageItem): void {
-        this.store.dispatch(deleteMessageSuccess({ message }));
+    unFavourite(message: IMessageItem): void {
+        this.store.dispatch(removeFavouriteMessage({ message }));
     }
+
+    addToDeleted(message: IMessageItem): void {
+        this.store.dispatch(deleteMessage({ message }));
+    }
+
+    unDelete(message: IMessageItem): void {
+        this.store.dispatch(unDeleteMessage({ message }));
+    }
+
     getAllMessages(): void {
         this.store.dispatch(getAllMessages());
     }
