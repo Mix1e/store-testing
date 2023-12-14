@@ -1,4 +1,4 @@
-import { EState, IMessageItem, IMessageModel } from '../models/messages-model.interface';
+import { EState, IMessageModel } from '../models/messages-model.interface';
 import { allMessages, favouriteMessages } from './app.selectors';
 import { initialState } from '../models/initial-state.const';
 import { allReducer } from '../reducers/all.reducers';
@@ -34,7 +34,7 @@ describe('AppSelector', () => {
         });
 
         expect(result).withContext('all').toEqual(state);
-        expect(result).withContext('all').toEqual(state);
+        expect(result).toBe(state);
     });
 
     it('Select favouriteMessages state', () => {
@@ -50,5 +50,6 @@ describe('AppSelector', () => {
         });
 
         expect(result).withContext('favouriteMessages').toEqual(initialState);
+        expect(result).toBe(initialState);
     });
 });

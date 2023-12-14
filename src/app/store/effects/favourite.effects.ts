@@ -38,7 +38,7 @@ export class FavouriteEffects {
                     }),
                 ),
             ),
-            catchError((error: string) => of(addFavouriteMessageFailure({ error }))),
+            catchError((error: Error) => of(addFavouriteMessageFailure({ error: error.message }))),
         ),
     );
 
@@ -53,7 +53,9 @@ export class FavouriteEffects {
                     }),
                 ),
             ),
-            catchError((error: string) => of(removeFavouriteMessageFailure({ error }))),
+            catchError((error: Error) =>
+                of(removeFavouriteMessageFailure({ error: error.message })),
+            ),
         ),
     );
 

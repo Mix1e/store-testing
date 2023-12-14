@@ -29,6 +29,7 @@
         <ng-container [ngSwitch]="model.state">
             <ng-container *ngSwitchCase="State.READY">
                 <app-message
+                    class="test"
                     *ngFor="let message of model.messages"
                     [message]="message"
                     [type]="type"

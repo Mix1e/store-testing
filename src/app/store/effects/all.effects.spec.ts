@@ -1,5 +1,5 @@
 import { AllEffects } from './all.effects';
-import { Observable } from 'rxjs';
+import { interval, map, Observable, of, take } from 'rxjs';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { IAppState } from '../selectors/app.selectors';
 import { TestBed } from '@angular/core/testing';
@@ -7,7 +7,11 @@ import { initialState } from '../models/initial-state.const';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MessageService } from '../../services/message.service';
 import { TestScheduler } from 'rxjs/internal/testing/TestScheduler';
-import { getAllMessages, getAllMessagesSuccess } from '../actions/all.actions';
+import {
+    getAllMessages,
+    getAllMessagesFailure,
+    getAllMessagesSuccess,
+} from '../actions/all.actions';
 import { IMessageItem } from '../models/messages-model.interface';
 
 const messagesStub: IMessageItem[] = [
@@ -62,7 +66,7 @@ describe('AllMessagesEffects', () => {
     });
 
     describe('getMessages$', () => {
-        it('should handle getAllMessages and return a getAllSuccess action', () => {
+        it('should handle getAllMessages and return a getAllMessagesSuccess action', () => {
             const action = getAllMessages();
             const outcome = getAllMessagesSuccess({ messages: messagesStub });
 
@@ -75,6 +79,38 @@ describe('AllMessagesEffects', () => {
                 messageServiceStub.getMessages.and.returnValue(response);
 
                 expectObservable(effects.getMessages$).toBe('--b', { b: outcome });
+            });
+        });
+
+        it('should handle getAllMessages and return a getAllMessagesFailure action', () => {
+            const action = getAllMessages();
+            const outcome = getAllMessagesFailure({ error: 'BA' });
+
+            testScheduler.run(({ hot, cold, expectObservable }) => {
+                actions = hot('-a', { a: action });
+                const response = cold('-#', {}, 'BA');
+                messageServiceStub.getMessages.and.returnValue(response);
+
+                expectObservable(effects.getMessages$).toBe('--(b|)', { b: outcome });
+            });
+        });
+
+        it('marbles should work', () => {
+            testScheduler.run(({ hot, cold, expectObservable }) => {
+                expectObservable(
+                    of(1).pipe(map((val: number) => (val === 0 ? 'baba' : 'bebe'))),
+                ).toBe('(b|)', { b: 'bebe' });
+            });
+        });
+
+        it('marbles should work2', () => {
+            testScheduler.run(({ hot, cold, expectObservable }) => {
+                const interObs = interval(2).pipe(
+                    take(5),
+                    map((х) => х * 2),
+                );
+
+                expectObservable(interObs).toBe('--a-b-c-d-(e|)', { a: 0, b: 2, c: 4, d: 6, e: 8 });
             });
         });
     });

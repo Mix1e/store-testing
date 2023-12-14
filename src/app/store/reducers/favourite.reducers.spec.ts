@@ -9,13 +9,6 @@ import {
 } from '../actions/favourite.actions';
 
 describe('FavouriteReducers', () => {
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            imports: [],
-            providers: [],
-        });
-    });
-
     describe('unknown action', () => {
         it('should return the default state', () => {
             const action = {
@@ -58,10 +51,10 @@ describe('FavouriteReducers', () => {
 
             const action = addFavouriteMessageSuccess({ message: favouriteMessage });
             const state = favouriteReducer(initialState, action);
-            const expectedMessages: IMessageItem[] = [];
-            if (initialState.messages) {
+            const expectedMessages: IMessageItem[] = initialState.messages || [];
+            /*if (initialState.messages) {
                 expectedMessages.push(...initialState.messages);
-            }
+            }*/
             expectedMessages.push(favouriteMessage);
 
             expect(state.messages).toEqual(expectedMessages);

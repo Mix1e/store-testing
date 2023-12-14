@@ -5,13 +5,6 @@ import { IMessageItem, IMessageModel } from '../models/messages-model.interface'
 import { getAllMessagesSuccess } from '../actions/all.actions';
 
 describe('AllReducers', () => {
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            imports: [],
-            providers: [],
-        });
-    });
-
     describe('unknown action', () => {
         it('should return the default state', () => {
             const action = {
@@ -36,7 +29,7 @@ describe('AllReducers', () => {
         });
     });
 
-    describe('', () => {
+    /*describe('', () => {
         it('', () => {});
-    });
+    });*/
 });
