@@ -3,7 +3,6 @@ import { initialState } from '../models/initial-state.const';
 import { EState, IMessageItem, IMessageModel } from '../models/messages-model.interface';
 import { favouriteReducer } from './favourite.reducers';
 import {
-    addFavouriteMessage,
     addFavouriteMessageSuccess,
     getFavouriteMessagesSuccess,
 } from '../actions/favourite.actions';

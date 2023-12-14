@@ -71,14 +71,13 @@ describe('ComponentTestComponent', () => {
             state: EState.READY,
             messages: messagesStub,
         };
-        beforeEach(async () => {
+        beforeEach(() => {
             mockMessagesSelector = store.overrideSelector(allMessages, model);
             store.refreshState();
             fixture.detectChanges();
         });
 
         it('should render all messages', () => {
-            console.log(fixture.debugElement.queryAll(By.all()));
             expect(fixture.debugElement.queryAll(By.css('.test')).length).toBe(3);
         });
 
