@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {RouterOutlet} from "@angular/router";
 import {TestComponent} from "./components/test/test.component";
-import {MessageService} from "./services/message.service";
 
 @Component({
     imports: [

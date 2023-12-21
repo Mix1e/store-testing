@@ -28,7 +28,7 @@ const messagesStub: IMessageItem[] = [
         content: 'BEBEBE',
     },
 ];
-
+// Чтобы ознакомиться с этим файлом лучше сначала изучить all.effects.spec.ts
 describe('FavouriteMessagesEffects', () => {
     const messageServiceStub = jasmine.createSpyObj('messageService', ['addToFavouriteMessage']);
     let effects: FavouriteEffects;

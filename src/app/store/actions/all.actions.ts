@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { IMessageItem } from '../models/messages-model.interface';
 
+// Протсто по приколу, в итоге не использовал
 export const appLoaded = createAction('[App] App Loaded');
 
 export enum EAllMessagesAction {

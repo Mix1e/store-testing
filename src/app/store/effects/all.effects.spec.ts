@@ -14,6 +14,7 @@ import {
 } from '../actions/all.actions';
 import { IMessageItem } from '../models/messages-model.interface';
 
+// Вынес тестовые данные чтобы не писать каждый раз в it
 const messagesStub: IMessageItem[] = [
     {
         id: 1,
@@ -29,7 +30,11 @@ const messagesStub: IMessageItem[] = [
     },
 ];
 
+// Тестирование эффектов самое сложное, поэтому тут точно придётся конфигурировать тетсовый модуль
+// через TestBed, где будут указан моковый store и моковые actions
 describe('AllMessagesEffects', () => {
+    // Делаем стаб сервиса который общается с бэком (в нашем случае не общается, но суть не меняется)
+    // Делаем для того чтобы не дёргать реальный метод, и тестировать только работу эффекта
     const messageServiceStub = jasmine.createSpyObj('messageService', ['getMessages']);
     let effects: AllEffects;
     let actions: Observable<unknown>;
@@ -39,15 +44,22 @@ describe('AllMessagesEffects', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
+                // Наш класс эффектов
                 AllEffects,
+                // Провайдим начальное состояние для мокового Store
                 provideMockStore({ initialState }),
+                // Провайдим вместо экшенов нашу переменную actions с которой потом будем
+                // развлекаться записывая в неё горячий observable
                 provideMockActions(() => actions),
+                // Провайдим вместо реального сервиса стаб
                 { provide: MessageService, useValue: messageServiceStub },
             ],
         });
 
         effects = TestBed.inject(AllEffects);
         store = TestBed.inject(MockStore);
+
+        // Устанавливаем состояние магазина (у каждого списка начанльное состояние)
         store.setState({
             messages: {
                 all: initialState,
@@ -56,6 +68,8 @@ describe('AllMessagesEffects', () => {
             },
         });
 
+        // Для того чтобы проверять Observables через testScheduler нужно задать ему способ сравнения
+        // подробнее в отдельном доке про Marbles
         testScheduler = new TestScheduler((actual, expected) => {
             expect(actual).toEqual(expected);
         });
@@ -65,14 +79,23 @@ describe('AllMessagesEffects', () => {
         expect(effects).toBeTruthy();
     });
 
+    // Здесь происходит проверка что наш эффект может обработать action getAllMessages и
+    // вернуть нужный action
     describe('getMessages$', () => {
         it('should handle getAllMessages and return a getAllMessagesSuccess action', () => {
+            // Входной action
             const action = getAllMessages();
+
+            // Выходной action
             const outcome = getAllMessagesSuccess({ messages: messagesStub });
 
+            // Общая марбл диаграмма следующая:
             // -a
             //  -b
             // --b
+            // а - входной action
+            // b - ответ от сервера
+            // получается мы ожидаем что финальный поток выдасть action через 2 тика
             testScheduler.run(({ hot, cold, expectObservable }) => {
                 actions = hot('-a', { a: action });
                 const response = cold('-b|', { b: messagesStub });
@@ -82,6 +105,8 @@ describe('AllMessagesEffects', () => {
             });
         });
 
+
+        // Ситуация в целом похожа на предыдущую, только сервер выдаёт не данные, а ошибку
         it('should handle getAllMessages and return a getAllMessagesFailure action', () => {
             const action = getAllMessages();
             const outcome = getAllMessagesFailure({ error: 'BA' });
@@ -95,6 +120,7 @@ describe('AllMessagesEffects', () => {
             });
         });
 
+        // Примеры не относяжиеся к тестированию приложения, для лучшего понимания marble diagrams
         it('marbles should work', () => {
             testScheduler.run(({ hot, cold, expectObservable }) => {
                 expectObservable(
