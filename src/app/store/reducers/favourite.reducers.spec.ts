@@ -7,6 +7,7 @@ import {
     getFavouriteMessagesSuccess,
 } from '../actions/favourite.actions';
 
+// Теста аналогичны тому что в all.reducers.spec
 describe('FavouriteReducers', () => {
     describe('unknown action', () => {
         it('should return the default state', () => {
